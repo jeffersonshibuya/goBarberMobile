@@ -7,7 +7,27 @@ const Stack = createStackNavigator();
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 
-export default function Routes() {
+import Dashboard from "./pages/Dashboard";
+
+function dashboardStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Dashboard" component={Dashboard} />
+    </Stack.Navigator>
+  );
+}
+
+export function RoutesDashboard() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
