@@ -21,7 +21,7 @@ export default function Dashboard() {
 
   async function handleCancel(id) {
     +console.tron.log(id);
-    const response = await api.delete(`appointment/${id}`);
+    const response = await api.delete(`appointments/${id}`);
 
     setAppointments(
       appointments.map((appointment) =>
@@ -38,7 +38,7 @@ export default function Dashboard() {
 
         <List
           data={appointments}
-          keyExtractor={(item) => String(item)}
+          keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <Appointment data={item} onCancel={() => handleCancel(item.id)} />
           )}
