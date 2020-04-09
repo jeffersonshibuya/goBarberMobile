@@ -11,16 +11,10 @@ import { store, persistor } from "./src/store";
 
 export default function App() {
   return (
-    // <Routes />
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Index />
       </PersistGate>
     </Provider>
-    // <Provider store={store}>
-    //   <PersistGate persistor={persistor}>
-    //     <Routes />
-    //   </PersistGate>
-    // </Provider>
   );
 }
