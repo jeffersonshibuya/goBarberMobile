@@ -1,24 +1,33 @@
-import React, { useState, useMemo } from "react";
-import { View, Button, Platform } from "react-native";
+import React, { useState, useMemo, useEffect } from "react";
+import { Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import Icon from "@expo/vector-icons/MaterialIcons";
+
+import api from "../../../services/api";
 
 import { format } from "date-fns";
 import pt from "date-fns/locale/pt";
 
 import Background from "../../../components/Background";
 
-// import DateInput from "../../../components/DateInput";
-import { Container, DateInput, DateButton, DateText } from "./styles";
-import { ptBR } from "date-fns/locale";
+import {
+  Container,
+  DateInput,
+  DateButton,
+  DateText,
+  HourList,
+  Hour,
+  Title,
+} from "./styles";
 
-// import { Container } from './styles';
-
-export default function SelectDateTime() {
+export default function SelectDateTime({ route, navigation }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+  const [hours, setHours] = useState([]);
+
+  const { provider } = route.params;
 
   const dateFormatted = useMemo(
     () =>
@@ -27,6 +36,19 @@ export default function SelectDateTime() {
       }),
     [date]
   );
+
+  useEffect(() => {
+    async function loadAvailable() {
+      const response = await api.get(`providers/${provider.id}/available`, {
+        params: {
+          date: date.getTime(),
+        },
+      });
+
+      setHours(response.data);
+    }
+    loadAvailable();
+  }, [date, provider.id]);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -42,6 +64,13 @@ export default function SelectDateTime() {
   const showDatepicker = () => {
     showMode("date");
   };
+
+  function handleSelectTime(time) {
+    navigation.navigate("Confirm", {
+      provider,
+      time,
+    });
+  }
 
   return (
     <Background>
@@ -66,6 +95,19 @@ export default function SelectDateTime() {
             onChange={onChange}
           />
         )}
+
+        <HourList
+          data={hours}
+          keyExtractor={(item) => item.time}
+          renderItem={({ item }) => (
+            <Hour
+              onPress={() => handleSelectTime(item.value)}
+              enabled={item.available}
+            >
+              <Title> {item.time} </Title>
+            </Hour>
+          )}
+        />
       </Container>
     </Background>
   );

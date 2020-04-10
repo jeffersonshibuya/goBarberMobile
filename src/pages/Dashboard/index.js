@@ -20,7 +20,6 @@ export default function Dashboard() {
   }, []);
 
   async function handleCancel(id) {
-    +console.tron.log(id);
     const response = await api.delete(`appointments/${id}`);
 
     setAppointments(

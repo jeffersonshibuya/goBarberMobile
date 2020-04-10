@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -36,7 +36,7 @@ function stackNewAgendamento() {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate("Dashboard")}
-              title="Info"
+              title="Profissionais"
               color="#fff"
             >
               <Icon name="chevron-left" size={20} color="#FFF" />
@@ -52,7 +52,7 @@ function stackNewAgendamento() {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => navigation.goBack()}
-              title="Info"
+              title="Selecionar Data e Hora"
               color="#fff"
             >
               <Icon name="chevron-left" size={20} color="#FFF" />
@@ -60,7 +60,22 @@ function stackNewAgendamento() {
           ),
         })}
       />
-      <Stack.Screen name="Confirm" component={Confirm} />
+      <Stack.Screen
+        name="Confirm"
+        component={Confirm}
+        options={({ navigation }) => ({
+          title: "Confirmar Agendamento",
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              title="Confirmar Agendamento"
+              color="#fff"
+            >
+              <Icon name="chevron-left" size={20} color="#FFF" />
+            </TouchableOpacity>
+          ),
+        })}
+      />
     </Stack.Navigator>
   );
 }
