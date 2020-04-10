@@ -105,6 +105,7 @@ export function RoutesDashboard() {
           name="Agendar"
           component={stackNewAgendamento}
           options={{
+            unmountOnBlur: true,
             tabBarVisible: false,
             tabBarLabel: "Novo Agendamento",
             tabBarIcon: ({ color, size }) => (

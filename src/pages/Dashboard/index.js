@@ -7,17 +7,21 @@ import Appointment from "../../components/Appointment";
 
 import api from "../../services/api";
 
-export default function Dashboard() {
+export default function Dashboard({ navigation }) {
   const [appointments, setAppointments] = useState([]);
 
-  useEffect(() => {
-    async function loadAppointments() {
-      const response = await api.get("appointments");
+  async function loadAppointments() {
+    const response = await api.get("appointments");
 
-      setAppointments(response.data);
-    }
-    loadAppointments();
-  }, []);
+    setAppointments(response.data);
+  }
+
+  useEffect(() => {
+    const load = navigation.addListener("focus", () => {
+      loadAppointments();
+    });
+    return load;
+  }, [navigation]);
 
   async function handleCancel(id) {
     const response = await api.delete(`appointments/${id}`);
@@ -29,6 +33,8 @@ export default function Dashboard() {
           : appointment
       )
     );
+
+    loadAppointments();
   }
   return (
     <Background>

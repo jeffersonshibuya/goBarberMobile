@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { CommonActions } from "@react-navigation/native";
 import { parseISO, formatRelative, format } from "date-fns";
 import pt from "date-fns/locale/pt";
 
@@ -16,12 +17,19 @@ export default function Confirm({ route, navigation }) {
   );
 
   async function handleSubmit() {
-    await api.post("appointmentos", {
+    await api.post("appointments", {
       provider_id: provider.id,
       date: time,
     });
 
     navigation.navigate("Dashboard");
+
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [{ name: "SelectProvider" }],
+    //   })
+    // );
   }
 
   return (
